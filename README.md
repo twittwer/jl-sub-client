@@ -1,14 +1,14 @@
 # jl-sub-client
 
-> Client for [Pub/Sub stream server](https://github.houston.softwaregrp.net/andreas-weber/jl-sub-server) based on [json-lines](https://github.com/thenativeweb/json-lines)
+> Client for [Pub/Sub stream server](https://github.com:twittwer/jl-sub-server) based on [json-lines](https://github.com/thenativeweb/json-lines)
 
-# Installation
-```
-npm install git+ssh://git@github.houston.softwaregrp.net:andreas-weber/jl-sub-client.git
-```
+## Installation
 
-# Usage
-```
+`npm install git+ssh://git@github.com:twittwer/jl-sub-client.git`
+
+## Usage
+
+```javascript
 const jlSubClient = require('jl-sub-client');
 
 const requestConfig = {
@@ -36,13 +36,15 @@ jlSubClient.connect(requestConfig)
     });
 ```
 
-# Reference
+## Reference
+
 > required **parameters** are written bold  
-> optional *parameters* are written italic or marked with `[`square brackets`]`  
+> optional *parameters* are written italic or marked with `[`square brackets`]`
 
-## Methods
+### Methods
 
-### jlSubClient.connect(requestConfig, [moduleConfig]): Promise
+#### jlSubClient.connect(requestConfig, [moduleConfig]): Promise
+
 Creates XHR based on request configuration and starts HTTP streaming.
 
 | Param             | Type            | Sample                                           | Description                       |
@@ -51,10 +53,10 @@ Creates XHR based on request configuration and starts HTTP streaming.
 | *moduleConfig*    | `moduleConfig`  | `{ 'connectionTimeoutInMS': 5000 }`              | configuration of request handling |
 
 **Resolves** with connected server instance (`.then(server => {...})`)  
-**Rejects** in cases of a failed connection attempt (`.catch(error => {...})`)  
+**Rejects** in cases of a failed connection attempt (`.catch(error => {...})`)
 
+#### server.on(eventName, eventHandler): void
 
-### server.on(eventName, eventHandler): void
 Registers handler/callback functions for connection events (`data`, `disconnect`).  
 Internally there are more events emitted (`heartbeat`, ...), but they are mainly for administrative tasks only.
 
@@ -74,7 +76,8 @@ Internally there are more events emitted (`heartbeat`, ...), but they are mainly
 
 > *) executes just once
 
-### server.removeListener(eventName, eventHandler): void
+#### server.removeListener(eventName, eventHandler): void
+
 Removes listeners from prior event registration (`server.on(...)`).
 
 | Param            | Type       |
@@ -82,12 +85,13 @@ Removes listeners from prior event registration (`server.on(...)`).
 | **eventName**    | `string`   |
 | **eventHandler** | `function` |
 
-### server.disconnect(): void
+#### server.disconnect(): void
+
 Closes server connection.
 
-## Custom Type Definitions
+### Custom Type Definitions
 
-### `requestConfig` - Request Configuration
+#### `requestConfig` - Request Configuration
 
 | Param        | Type       | Sample                                | Description                             |
 | ------------ | ---------- | ------------------------------------- | --------------------------------------- |
@@ -99,23 +103,23 @@ Closes server connection.
 | *query*      | `object`   | `{ 'lastEvent': '1505077200' }`       | map of url query params and their value |
 | *body***     | `object`   | `{ 'channels': ['news','weather'] }`  | http body (json only)                   |
 | *channels*** | `string[]` | `['news','weather']`                  | shortcut to set `body.channels`         |
-  
+
 > *) as default `ssl`, `host`, `port` will be defined by current domain  
-> **) if `channels` is defined, it will be set as `body.channels` (won't overwrite an existing `body.channels` property)  
+> **) if `channels` is defined, it will be set as `body.channels` (won't overwrite an existing `body.channels` property)
 
-### `moduleConfig` - Module Configuration
+#### `moduleConfig` - Module Configuration
 
-| Param                   | Type               | Default | Description                                                                                                                                                                                                                       |
-| ----------------------- | ------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| *dataExtractor*         | `function`         | (*)     | converter as counterpart of the `dataWrapper` in [jl-sub-server](https://github.houston.softwaregrp.net/andreas-weber/jl-sub-server)<br/>gets a data package and has to return an object with the properties `channel` and `data` |
-| *connectionTimeoutInMS* | `number`           | `3000`  | time to wait before a connection attempt is evaluated as failed                                                                                                                                                                   |
-| *reconnectTrigger*      | `reconnectTrigger` | `{...}` | configuration of internal/background reconnects                                                                                                                                                                                   |
-| *reconnectAttemptLimit* | `number`           | `3`     | how many internal connection attempts are allowed                                                                                                                                                                                 |
-| *reconnectWithHandover* | `boolean`          | `true`  | set true to establish new connection and synchronize before reconnect                                                                                                                                                             |
+| Param                   | Type               | Default | Description                                                                                                                                                                                              |
+| ----------------------- | ------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| *dataExtractor*         | `function`         | (*)     | converter as counterpart of the `dataWrapper` in [jl-sub-server](https://github.com:twittwer/jl-sub-server)<br/>gets a data package and has to return an object with the properties `channel` and `data` |
+| *connectionTimeoutInMS* | `number`           | `3000`  | time to wait before a connection attempt is evaluated as failed                                                                                                                                          |
+| *reconnectTrigger*      | `reconnectTrigger` | `{...}` | configuration of internal/background reconnects                                                                                                                                                          |
+| *reconnectAttemptLimit* | `number`           | `3`     | how many internal connection attempts are allowed                                                                                                                                                        |
+| *reconnectWithHandover* | `boolean`          | `true`  | set true to establish new connection and synchronize before reconnect                                                                                                                                    |
 
 > *) `(dataPackage) => boolean`
 
-### `reconnectTrigger` - Reconnect Trigger Configuration
+#### `reconnectTrigger` - Reconnect Trigger Configuration
 
 | Param                    | Type      | Default | Description                                                        |
 | ------------------------ | --------- | ------- | ------------------------------------------------------------------ |
